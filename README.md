@@ -5,8 +5,6 @@ Licensed under the [GNU General Public License v3.0](LICENSE).
 You are free to use, modify, and share this software under the same license.
 Any distributed modified versions must also be open-sourced under GPLv3.
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/domminney/rs2Mono2Stereo/build.yml?branch=main)](https://github.com/domminney/rs2Mono2Stereo/actions)
-[![Platform](https://img.shields.io/badge/platform-VST3%20%7C%20AU-blue.svg)](#)
 [![Made with JUCE](https://img.shields.io/badge/Made%20with-JUCE-green)](https://juce.com)
 
 A JUCE-based **VST3/AU plugin** that turns mono audio sources into natural, wide stereo — without breaking mono compatibility.
@@ -18,12 +16,6 @@ A JUCE-based **VST3/AU plugin** that turns mono audio sources into natural, wide
 - **Mono Safe** – Maintains perfect mono compatibility.
 - **Cross-Platform** – Works in any modern VST3/AU-compatible DAW.
 - **Lightweight** – Low CPU usage for big sessions.
-
----
-
-## 📸 Screenshot
-*(Replace with your actual plugin UI image)*  
-![Plugin Screenshot](docs/screenshot.png)
 
 ---
 
