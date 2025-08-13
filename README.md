@@ -1,82 +1,106 @@
 # rs2Mono2Stereo
 
-Licensed under the [GNU General Public License v3.0](LICENSE).
-
-You are free to use, modify, and share this software under the same license.
-Any distributed modified versions must also be open-sourced under GPLv3.
-
+[![License: GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENCE)
 [![Made with JUCE](https://img.shields.io/badge/Made%20with-JUCE-green)](https://juce.com)
 
-A JUCE-based **VST3/AU plugin** that turns mono audio sources into natural, wide stereo — without breaking mono compatibility.
+A JUCE-based **VST3/AU plugin** technique that turns mono audio sources into natural, wide stereo — **without breaking mono compatibility**.
+
+> **Note:** This repository provides **source files only** (no Projucer/CMake project).  
+> Create your own JUCE Audio Plug-In project, then **copy these files into it**.
 
 ---
 
 ## ✨ Features
-- **Stereo from Mono** – Create a wide, spacious sound from mono sources.
-- **Mono Safe** – Maintains perfect mono compatibility.
-- **Cross-Platform** – Works in any modern VST3/AU-compatible DAW.
-- **Lightweight** – Low CPU usage for big sessions.
+- **Stereo from Mono** – Creates a wide, spacious image from mono sources.
+- **Mono Safe** – Phase-aware approach that folds down cleanly.
+- **DAW Agnostic** – Works in any modern VST3/AU host once built in your project.
+- **Lightweight** – Low CPU overhead.
 
 ---
 
 ## 🛠 Requirements
-- [JUCE](https://juce.com/get-juce) (latest version)
-- C++17 or newer compiler
-- CMake (if building from command line)
-- DAW that supports VST3 or AU plugins
+- **JUCE** (6.x or newer): <https://juce.com/get-juce>  
+- **C++17** (or newer) toolchain  
+- **Your own JUCE Audio Plug-In project** (Projucer or CMake)  
+- A DAW that supports **VST3** (Win/macOS) or **Audio Unit** (macOS)
 
 ---
 
-## 📦 Installation
+## 🚀 Quick Start (Integrate into *your* JUCE project)
 
-### 1. Clone the repository
-    git clone https://github.com/domminney/rs2Mono2Stereo.git
-    cd rs2Mono2Stereo
+You have two common paths:
 
-### 2. Install JUCE
-Download JUCE from [juce.com/get-juce](https://juce.com/get-juce) and install it.
+### Option A — Projucer project
+1. Open **Projucer** → **New Project** → **Audio Plug-In**.
+2. In **Project Settings**:
+   - Uncheck *Plugin is a Synth* (this is an audio effect).
+   - Ensure plugin formats you want are enabled (VST3 / AU).
+   - Set **Plugin Channel Configurations** to support **mono-in → stereo-out** (e.g. add `{"1,2"}`; optionally also `{"2,2"}`).
+3. In the Projucer **Files** panel, right-click **Source** → **Add Existing Files…**  
+   Add the **four source/header files** from this repository.
+4. Save and open in your IDE (Xcode / Visual Studio) and **Build**.
+5. Point your DAW at the built plugin or copy it to your system plugin folder.
 
-### 3. Build the plugin
-
-**Using Projucer**
-1. Open `rs2Mono2Stereo.jucer` in Projucer.
-2. Set the JUCE path.
-3. Choose your export target (Xcode, Visual Studio, etc.).
-4. Build.
-
-**Using CMake**
-    cmake -Bbuild
-    cmake --build build
+### Option B — CMake-based JUCE project
+1. Create a new CMake JUCE Audio Plug-In project (see the JUCE examples/templates).
+2. Copy the **four source/header files** from this repository into your project’s `Source/` (or a suitable folder).
+3. Add them to your target, e.g.:
+   
+       target_sources(${PROJECT_NAME} PRIVATE
+         Source/MainEditor.cpp
+         Source/MainProcessor.cpp
+         Source/rs2Mono2Stereo.cpp
+         Source/rs2Mono2Stereo.h
+       )
+   
+   *(Adjust names/paths to match the actual files in this repo.)*
+4. Ensure your plugin supports **mono-in → stereo-out**. Common approaches:
+   - Define preferred channel layouts via `JucePlugin_PreferredChannelConfigurations` (legacy define), **or**
+   - Configure **bus layouts** in your `AudioProcessor` code to accept 1-in/2-out (and optionally 2-in/2-out).
+5. Configure & build, then load the plugin in your DAW.
 
 ---
 
 ## 🎚 Usage
-1. Insert `rs2Mono2Stereo` on a mono track in your DAW.
-2. Adjust stereo controls to taste.
-3. Enjoy a wider sound that stays mono-compatible.
+1. Insert **rs2Mono2Stereo** on a **mono** track.
+2. Adjust its controls (width/voicing) to taste.
+3. Enjoy a wider image that remains **mono-compatible** on fold-down.
 
 ---
 
-## 📜 License
-Licensed under the [MIT License](LICENSE).  
-You’re free to use, modify, and distribute — just credit the original author.
+## ❓ FAQ
+
+**Why isn’t there a full JUCE project here?**  
+This repo is intentionally minimal: it provides the **core processing code** so you can drop it into **your existing JUCE setup** (Projucer or CMake) without imposing a particular project structure.
+
+**Where do I put the files?**  
+Add them to your JUCE project’s `Source/` folder (or similar) and include/compile them as part of your plug-in target.
+
+**Do you provide binaries?**  
+No. Build inside your own JUCE project for your platform(s) and preferred formats.
 
 ---
 
 ## 🤝 Contributing
-Pull requests welcome!  
-1. Fork the repo  
-2. Create a branch (`feature/my-feature`)  
-3. Commit changes  
-4. Open a Pull Request  
+Issues and PRs are welcome. By contributing, you agree your changes are licensed under **GPLv3**.
+
+- Fork the repo  
+- Create a branch (`feature/my-feature`)  
+- Commit changes  
+- Open a Pull Request
 
 ---
 
 ## 🐞 Issues
-Found a bug or want a feature? [Open an issue](https://github.com/domminney/rs2Mono2Stereo/issues).
+Bug reports and feature requests:  
+<https://github.com/domminney/rs2Mono2Stereo/issues>
+
+---
+
+## 📜 License
+Licensed under the **GNU General Public License v3.0**. See **[LICENCE](LICENCE)** for details.
 
 ---
 
 ## 💡 About JUCE
-JUCE is an open-source C++ framework for cross-platform audio apps and plugins.  
-Learn more at [juce.com](https://juce.com).
+JUCE is a cross-platform C++ framework for audio apps and plugins: <https://juce.com>
